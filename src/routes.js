@@ -6,14 +6,26 @@ const ProductController = require("./controllers/ProductController");
 const multer = require("multer");
 const multerConfig = require("./config/index.js")
 
-routes.get("/list", (req, res, next) => {
-    if(req.session && req.session.login) {
-        res.render('list', {
-        });
-        return;
-    }
-    res.redirect('./user');
+
+routes.get('/', (req,res) => {
+    res.render('index');
 });
+  
+routes.get('/sing', (req, res) => {
+    res.render('singup')
+});
+  
+routes.get('/cad', (req,res) =>{
+    res.render('cadProd')
+});
+
+routes.get('/listProd', (req,res) =>{
+    var prod = [{name: '1', price: '2'}]
+    console.log(ProductController.index);
+    res.render('listaProd', {prod: ProductController.index});
+})
+
+
 
 routes.get("/user", UserController.index);
 routes.post("/user", UserController.store);
@@ -21,6 +33,7 @@ routes.get("/user/:id", UserController.show);
 
 routes.get("/prod", ProductController.index);
 routes.post("/prod", multer(multerConfig).single("file"), ProductController.store);
-routes.get("/prod/:name", ProductController.show);
+routes.get("/search", ProductController.show);
+routes.delete("/prod/:id", ProductController.destroy);
 
 module.exports = routes;
