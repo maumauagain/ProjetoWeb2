@@ -16,7 +16,10 @@ routes.get('/sing', (req, res) => {
 });
   
 routes.get('/cad', (req,res) =>{
-    res.render('cadProd')
+    if(req.session.login)
+        res.render('cadProd');
+    else
+        res.redirect('/');
 });
 
 routes.get('/listProd', (req,res) =>{

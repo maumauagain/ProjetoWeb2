@@ -6,7 +6,8 @@ class UserController {
     const user = await User.find();
     user.filter( (item) => {
       if(item.username === req.query.username && item.password === req.query.password){
-        return res.redirect('/cad');
+        req.session.login = item.username;
+        return res.redirect('/prod');
       }
     })
     return res.redirect('/');
@@ -16,14 +17,11 @@ class UserController {
     let login = req.body.login,
         password = req.body.password;
     if(login !== "" && password !== ""){
-        req.session.login = 'teste';
         const user = await User.create(req.body);
         return res.redirect('/');
-      }
-    else {
-        const user = await User.create(req.body);
-        return res.redirect('/cad');
     }
+    return res.redirect('/sing');
+
   }
   async show(req, res) {
     const user = await User.findById(req.params.id);

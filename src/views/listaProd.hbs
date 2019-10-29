@@ -9,8 +9,22 @@
 </head>
 <body>
     <h1>Sale Products</h1>
+    <div id="initial">
+        <a href="./cad">
+        <button>
+            Register
+        </button>
+        </a>
+        <form method="GET" action="./search">
+            <input type="text" name="name" placeholder="Search">
+                <button class="login100-form-btn">
+                    Search
+                </button>
+        </form>
+    </div>
+    
     {{#each prod}}
-        <div>
+        <div class="aoba">
             <img src={{this.url}} />
             <p>Nome: </p><h2> {{this.name}}</h2>
             <p>Preco: {{this.price}}</p>

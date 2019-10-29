@@ -2,34 +2,43 @@ const Product = require("../models/ProductModel");
 
 class ProductController {
   async index(req, res) {
-    const prod = await Product.find();
-    console.log(prod)
-    return res.render('listaProd', {prod: prod});
+    if (req.session.login) {
+      const prod = await Product.find();
+      return res.render('listaProd', { prod: prod });
+    }
+    return res.redirect('/');
+
   }
   async store(req, res) {
-    var key;
-    if(req.body.file){
-      key = req.body.file;
-    } else {
-      key = "";
+    if (req.session.login) {
+      var key;
+      if (req.body.file) {
+        key = req.body.file;
+      } else {
+        key = "";
+      }
+      await Product.create({
+        name: req.body.name,
+        price: req.body.price,
+        key: key,
+        url: "",
+      });
+      return res.redirect('/prod');
     }
-    await Product.create({
-      name: req.body.name,
-      price: req.body.price,
-      key: key,
-      url: "",
-    });
-    return res.redirect('./cad')  
+    return res.redirect('/')
   }
 
   async show(req, res) {
-    const prod = await Product.find();
-    var search = (prod.filter((item) => {
-      if(item.name.includes(req.query.name)){
-        return item
-      }
-    }));
-    return res.render('searchProd', {prod: search}); 
+    if (req.session.login) {
+      const prod = await Product.find();
+      var search = (prod.filter((item) => {
+        if (item.name.includes(req.query.name)) {
+          return item
+        }
+      }));
+      return res.render('searchProd', { prod: search });
+    }
+    return res.redirect('./');
   }
 
   async update(req, res) {
@@ -39,9 +48,9 @@ class ProductController {
     return res.json(prod);
   }
 
-  async destroy(req, res){
+  async destroy(req, res) {
     await Product.findByIdAndRemove(req.params.id);
-    return res.send( { deleted : true });
+    return res.send({ deleted: true });
   }
 }
 
