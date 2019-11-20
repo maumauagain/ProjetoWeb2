@@ -7,6 +7,7 @@ var session = require("express-session");
 const http = require("http");
 const path = require("path");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'src', 'views')));
 app.use('/files', express.static(path.resolve(__dirname, "tmp", "uploads")));
+app.use(cors())
 
 mongoose.connect(
   process.env.MONGO_URL, {
