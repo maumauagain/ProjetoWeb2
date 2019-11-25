@@ -35,4 +35,4 @@ app.set('view engine', 'hbs');
 app.use("/", routes);
 app.use(express.urlencoded({ extended: true }));  
 
-http.createServer(app).listen(8080);
+http.createServer(app).listen(process.env.PORT || 8080);
