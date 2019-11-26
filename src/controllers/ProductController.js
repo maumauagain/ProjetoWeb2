@@ -8,7 +8,6 @@ class ProductController {
   }
   
   async store(req, res) {
-    //if (req.session.login) {
       var key = null;
       console.log(req.file)
       if (req.file) {
@@ -24,13 +23,10 @@ class ProductController {
       });
       console.log("bundinha")
       return res.json(product);
-      //return res.redirect('/prod');
-    //}
-    //return res.redirect('/')
+
   }
 
   async show(req, res) {
-    //if (req.session.login) {
       const prod = await Product.find();
       var search = (prod.filter((item) => {
         if (item.name.includes(req.query.name)) {
@@ -38,8 +34,7 @@ class ProductController {
         }
       }));
       return res.json(search);
-    //}
-    //return res.redirect('./');
+
   }
 
   async update(req, res) {
